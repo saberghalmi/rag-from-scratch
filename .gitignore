@@ -1,6 +1,5 @@
 venv/
 node_modules/
-faiss_index/
 __pycache__/
 *.pyc
 .env
