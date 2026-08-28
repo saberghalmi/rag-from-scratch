@@ -43,7 +43,7 @@ def build_prompt(question: str, retrieved_docs) -> str:
     return RAG_PROMPT_TEMPLATE.format(context=context, question=question)
 
 
-ddef call_llm(prompt: str) -> str:
+def call_llm(prompt: str) -> str:
     client = InferenceClient(token=HF_TOKEN)
     response = client.chat_completion(
         model="meta-llama/Llama-3.1-8B-Instruct:fastest",
