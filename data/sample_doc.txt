@@ -1,0 +1,44 @@
+Titre : Introduction aux systèmes RAG (Retrieval-Augmented Generation)
+
+Qu'est-ce que le RAG ?
+Le RAG (Retrieval-Augmented Generation) est une architecture qui combine un système de recherche
+d'information (retrieval) avec un modèle de langage génératif (LLM). Plutôt que de se baser uniquement
+sur les connaissances internes du modèle, le RAG va chercher des informations pertinentes dans une base
+de documents externe avant de générer une réponse. Cela permet de réduire les hallucinations et de
+répondre avec des informations à jour ou spécifiques à un domaine.
+
+Les Embeddings
+Un embedding est une représentation vectorielle dense d'un texte. Chaque mot, phrase ou document est
+transformé en un vecteur de nombres réels (par exemple 384 ou 768 dimensions). Deux textes ayant un sens
+proche auront des vecteurs proches dans cet espace, ce qui permet de mesurer la similarité sémantique
+entre deux textes via une distance (cosine, euclidienne, etc.).
+
+Le Chunking
+Le chunking consiste à découper un document long en petits segments (chunks) avant de les indexer.
+Cette étape est cruciale : des chunks trop grands diluent l'information pertinente, tandis que des
+chunks trop petits perdent le contexte. Une stratégie courante consiste à utiliser des chunks de
+300 à 500 tokens avec un chevauchement (overlap) de 10 à 20% pour préserver la continuité du sens.
+
+FAISS (Facebook AI Similarity Search)
+FAISS est une bibliothèque développée par Meta AI permettant de faire de la recherche de similarité
+vectorielle à grande échelle de manière très rapide. Elle indexe des millions de vecteurs et permet de
+retrouver en quelques millisecondes les k vecteurs les plus proches d'une requête donnée. FAISS supporte
+plusieurs types d'index (Flat, IVF, HNSW) selon le compromis souhaité entre vitesse et précision.
+
+LangChain
+LangChain est un framework qui facilite la construction de pipelines impliquant des LLM. Il fournit des
+composants prêts à l'emploi pour le chargement de documents, le découpage de texte (text splitters),
+la génération d'embeddings, l'interfaçage avec des bases vectorielles comme FAISS, et l'orchestration
+de chaînes de traitement (chains) combinant retrieval et génération.
+
+HuggingFace
+HuggingFace est une plateforme et une bibliothèque open source hébergeant des milliers de modèles
+pré-entraînés, notamment des modèles d'embeddings (comme sentence-transformers) et des modèles de
+langage. Elle permet d'exécuter ces modèles localement, sans dépendre d'une API payante, ce qui est
+idéal pour des projets d'apprentissage ou des prototypes.
+
+Pourquoi construire un RAG from scratch ?
+Construire un système RAG "from scratch" (sans framework tout-en-un opaque) permet de bien comprendre
+chaque brique : le découpage des documents, la génération d'embeddings, l'indexation vectorielle, la
+recherche par similarité, et enfin l'intégration avec un LLM pour générer une réponse finale ancrée
+dans les documents source. C'est une compétence de base recherchée pour les postes liés à l'IA générative.
