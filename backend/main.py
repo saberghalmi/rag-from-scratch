@@ -30,7 +30,20 @@ app.add_middleware(
 )
 
 # Chargé une seule fois au démarrage du serveur, pas à chaque question
-embedding_model = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
+from huggingface_hub import InferenceClient
+from langchain_core.embeddings import Embeddings
+
+class RemoteEmbeddings(Embeddings):
+    def __init__(self, model_name, token):
+        self.client = InferenceClient(model=model_name, token=token)
+
+    def embed_documents(self, texts):
+        return [self.client.feature_extraction(t).tolist() for t in texts]
+
+    def embed_query(self, text):
+        return self.client.feature_extraction(text).tolist()
+
+embedding_model = RemoteEmbeddings("sentence-transformers/all-MiniLM-L6-v2", HF_TOKEN)
 vectorstore = FAISS.load_local("../faiss_index", embedding_model, allow_dangerous_deserialization=True)
 
 
